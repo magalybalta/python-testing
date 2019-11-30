@@ -13,7 +13,7 @@ class TestableCostoEnvioService(CostoEnvioService):
         return 80
 
     def grabar_costo(self, costo, pais):
-        self.costo_grabado = True
+        self.costo_grabado = False
 
 
 class TestCostoEnvioService(unittest.TestCase):
