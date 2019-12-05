@@ -27,3 +27,6 @@ class CostoEnvioService:
     def grabar_costo(self, costo, pais):
         self.costo_envio_dao.actualizar(pais, costo)
 
+    def actualizar_stock(self, pais, stock):
+        self.costo_envio_dao.actualizar_stock(pais, stock)
+

@@ -1,6 +1,6 @@
 import unittest
 
-from modules.costoenvio.CostoEnvioService import CostoEnvioService
+from app.modules.costoenvio.CostoEnvioService import CostoEnvioService
 
 
 class TestableCostoEnvioService(CostoEnvioService):
@@ -13,7 +13,10 @@ class TestableCostoEnvioService(CostoEnvioService):
         return 80
 
     def grabar_costo(self, costo, pais):
-        self.costo_grabado = False
+        self.costo_grabado = True
+
+    def exportar_merca(self, precio):
+        self.merca = precio 
 
 
 class TestCostoEnvioService(unittest.TestCase):
@@ -31,6 +34,17 @@ class TestCostoEnvioService(unittest.TestCase):
         costo_envio_service.actualizar_costo("Peru", 50)
 
         self.assertTrue(costo_envio_service.costo_grabado)
+    
+    def test_exportarMerca_pass(self):
+        costo_envio_service = TestableCostoEnvioService()
+        
+        precio = 100
+
+        costo_envio_service.exportar_merca(precio)
+
+        self.assertEqual(costo_envio_service.merca, 100)
+
+
 
 
 if __name__ == '__main__':

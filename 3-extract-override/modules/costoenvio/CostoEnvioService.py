@@ -27,3 +27,5 @@ class CostoEnvioService:
     def grabar_costo(self, costo, pais):
         self.costo_envio_dao.actualizar(pais, costo)
 
+    def exportar_merca(self, precio):
+        self.costo_envio_dao.exportar(precio)

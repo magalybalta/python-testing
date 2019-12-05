@@ -1,7 +1,7 @@
 import unittest
 
-from modules.costoenvio.CostoEnvioDAO import CostoEnvioDAO
-from modules.costoenvio.CostoEnvioService import CostoEnvioService
+from app.modules.costoenvio.CostoEnvioDAO import CostoEnvioDAO
+from app.modules.costoenvio.CostoEnvioService import CostoEnvioService
 
 
 class CostoEnvioDAOFake(CostoEnvioDAO):
@@ -15,6 +15,9 @@ class CostoEnvioDAOFake(CostoEnvioDAO):
 
     def actualizar(self, pais, costo):
         self.costo_actualizado = True
+    
+    def actualizar_stock(self, pais, stock):
+        self.stock_actualizado = True
 
 
 class TestCostoEnvioService(unittest.TestCase):
@@ -34,6 +37,12 @@ class TestCostoEnvioService(unittest.TestCase):
 
         self.assertTrue(costo_envio_dao.costo_actualizado)
 
+    def test_actualizarStock_pass(self):
+        costo_envio_service = CostoEnvioService(CostoEnvioDAOFake())
+
+        costo_envio_service.actualizar_stock("Argentina", 150)
+
+        self.assertTrue(costo_envio_service.actualizar_stock)
 
 if __name__ == '__main__':
     unittest.main()
