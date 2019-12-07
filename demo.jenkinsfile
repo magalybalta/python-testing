@@ -2,8 +2,6 @@ pipeline {
   agent any
   parameters {
     string(name: 'SLACK_CHANNEL', defaultValue: '#deploys', description: '')
-    choice(name: 'TYPE', choices: 'aut\ncron\ndata', description: 'Autoscaling, Cron or Data')
-    booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Update aws ami')
   }
 
   options {
@@ -38,10 +36,7 @@ pipeline {
           echo "build_number ${env.BUILD_NUMBER}"
           echo "artifact: ${env.ARTIFACT}"
           echo "message: ${env.SLACK_MESSAGE}"
-          
           echo "canal ${params.SLACK_CHANNEL}"
-          echo "tipo ${params.TYPE}"
-          echo "launch ${params.LAUNCH_CONFIGURATION}"
       }
     }
     stage('Inspection') {
@@ -55,11 +50,7 @@ pipeline {
     
     stage ('Build') {
       steps {
-        script {
-          def ID = sh(returnStdout: true, script: "./ami_id.sh ${env.BUILD_NUMBER}").trim()
-          sh "./build_ami.sh ${ID}"
-        }
-        sh "zip -r ${env.ARTIFACT} 4-fake-delegation/"
+        sh "zip -r ${env.ARTIFACT} ./"
       }
     }
 
@@ -70,20 +61,6 @@ pipeline {
       }
       steps {
         sh "echo ok_seguimos"
-      }
-    }
-    
-    stage ('Deploy') {
-      when {
-        expression {
-          return params.DEPLOY ==~ /(?i)(Y|YES|T|TRUE|ON|RUN)/
-        }
-      }
-      steps {
-        sh "echo hare_deploy"
-        build job: "mydemo", parameters: [
-          [$class: 'StringParameterValue', name: "SLACK", value: '#deploys']
-        ]
       }
     }
   }
