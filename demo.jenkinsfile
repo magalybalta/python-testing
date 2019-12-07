@@ -53,16 +53,6 @@ pipeline {
         sh "zip -r ${env.ARTIFACT} ./"
       }
     }
-
-    stage ("Ask") {
-      input {
-        message "Are you sure?"
-        ok "Yes"
-      }
-      steps {
-        sh "echo ok_seguimos"
-      }
-    }
   }
 
   post {
